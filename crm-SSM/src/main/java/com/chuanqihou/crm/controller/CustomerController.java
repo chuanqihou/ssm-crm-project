@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -43,6 +44,17 @@ public class CustomerController {
         }
         //调用业务层并返回
         return customerService.saveCustomer(customerDto);
+    }
+
+    /**
+     * 分页查询客户信息
+     * @param pageNum   第几页
+     * @param pageSize  每页几条数据【非必须，默认值为5】
+     * @return  result
+     */
+    @PostMapping("/getCustomerByPage.do")
+    public Result getCustomerByPage(Integer pageNum,@RequestParam(value = "pageSize",required = false,defaultValue = "5") Integer pageSize) {
+        return customerService.findCustomerByPage(pageNum, pageSize);
     }
 
 }

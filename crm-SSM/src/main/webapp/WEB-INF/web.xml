@@ -30,6 +30,8 @@
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
 
+
+
   <!--配置springmvc核心控制器-->
   <servlet>
     <servlet-name>dispatcherServlet</servlet-name>
@@ -41,10 +43,41 @@
     <!--优先级-->
     <load-on-startup>1</load-on-startup>
   </servlet>
+  
+  <!--druid-->
+  <servlet>
+    <servlet-name>statViewServlet</servlet-name>
+    <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+    <!--配置账号密码-->
+    <init-param>
+      <param-name>loginUsername</param-name>
+      <param-value>admin</param-value>
+    </init-param>
+    <init-param>
+      <param-name>loginPassword</param-name>
+      <param-value>123456</param-value>
+    </init-param>
+    <!--白名单-->
+    <init-param>
+      <param-name>allow</param-name>
+      <param-value></param-value>
+    </init-param>
+    <!--黑名单-->
+    <init-param>
+      <param-name>deny</param-name>
+      <param-value>192.168.137.103</param-value>
+    </init-param>
+  </servlet>
+
   <!--配置哪些请求进入核心控制器-->
   <servlet-mapping>
     <servlet-name>dispatcherServlet</servlet-name>
     <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>statViewServlet</servlet-name>
+    <url-pattern>/druid/*</url-pattern>
   </servlet-mapping>
 
 </web-app>

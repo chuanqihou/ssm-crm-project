@@ -1,6 +1,10 @@
 package com.chuanqihou.crm.mapper;
 
+import com.chuanqihou.crm.domain.Customer;
 import com.chuanqihou.crm.dto.CustomerDto;
+
+import java.util.List;
+
 /**
  * @author 传奇后
  * @date 2023/4/25 17:07
@@ -21,5 +25,11 @@ public interface CustomerMapper {
      * @return
      */
     int insertUser(CustomerDto customerDto);
+
+    /**
+     * 分页查询
+     * @return
+     */
+    List<Customer> selectCustomerByPage();
 
 }

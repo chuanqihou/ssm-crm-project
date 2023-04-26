@@ -16,13 +16,19 @@ public class Result {
     private Integer code;
     private String msg;
     private Object data;
-    private Integer total;
+    private Long total;
 
     public static final Result DATE_FORMAT_ERROR = new Result(-1, "格式错误");
 
     public Result(Integer code, String msg) {
         this.code = code;
         this.msg = msg;
+    }
+
+    public Result(Integer code, String msg, Object data) {
+        this.code = code;
+        this.msg = msg;
+        this.data = data;
     }
 
     public Result() {

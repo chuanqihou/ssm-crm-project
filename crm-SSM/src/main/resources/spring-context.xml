@@ -9,8 +9,20 @@
     <!--读取db.properties文件-->
     <context:property-placeholder location="classpath:db.properties" system-properties-mode="FALLBACK"/>
 
-    <!--配置数据源-->
+<!--    &lt;!&ndash;配置数据源&ndash;&gt;
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        &lt;!&ndash;驱动类&ndash;&gt;
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        &lt;!&ndash;数据库url&ndash;&gt;
+        <property name="url" value="${jdbc.url}"/>
+        &lt;!&ndash;数据库用户名&ndash;&gt;
+        <property name="username" value="${jdbc.username}"/>
+        &lt;!&ndash;数据库密码&ndash;&gt;
+        <property name="password" value="${jdbc.password}"/>
+    </bean>-->
+
+    <!--配置druid数据源-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
         <!--驱动类-->
         <property name="driverClassName" value="${jdbc.driver}"/>
         <!--数据库url-->
@@ -19,6 +31,12 @@
         <property name="username" value="${jdbc.username}"/>
         <!--数据库密码-->
         <property name="password" value="${jdbc.password}"/>
+        <!--初始连接数-->
+        <property name="initialSize" value="${initialSize}"/>
+        <!--最大活跃数-->
+        <property name="maxActive" value="${maxActive}"/>
+        <!--显示druid-->
+        <property name="filters" value="stat,wall,log4j"/>
     </bean>
 
     <!--创建会话工厂-->

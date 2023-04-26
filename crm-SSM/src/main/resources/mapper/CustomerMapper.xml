@@ -4,6 +4,19 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chuanqihou.crm.mapper.CustomerMapper">
 
+<!--    <resultMap id="customerAndDept" type="customer">
+        <id column="id" property="id"/>
+        <result column="customer_name" property="customerName"/>
+        <result column="birthday" property="birthday"/>
+        <result column="sex" property="sex"/>
+        <result column="tel" property="tel"/>
+        <result column="sal" property="sal"/>
+        <result column="profession" property="profession"/>
+        <result column="address" property="address"/>
+        <result column="dept_id" property="deptId"/>
+        <association property="id" select="com.chuanqihou.crm.mapper.DeptMapper.selectDeptById"/>
+    </resultMap>-->
+
     <select id="selectCustomerIsExist" resultType="int">
         select count(*)
         from customer
@@ -17,5 +30,13 @@
         insert into customer (id, customer_name, birthday, sex, tel, sal, profession, address, dept_id)
         values (null, #{customerName}, #{birthday}, #{sex}, #{tel}, #{sal}, #{profession}, #{address}, #{deptId})
     </insert>
+
+<!--    <select id="selectCustomerByPage" resultType="customerAndDept">
+        select c.*,d.name,d.loc from customer c inner join dept d on c.dept_id = d.id
+    </select>-->
+<!--
+    <select id="selectCustomerByPage" resultMap="customerAndDept">
+        select id, customer_name, birthday, sex, tel, sal, profession, address, dept_id from customer
+    </select>-->
 
 </mapper>

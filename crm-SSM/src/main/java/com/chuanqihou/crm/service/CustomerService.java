@@ -12,4 +12,6 @@ public interface CustomerService {
 
     Result saveCustomer(CustomerDto customerDto);
 
+    Result findCustomerByPage(Integer pageNum, Integer pageSize);
+
 }

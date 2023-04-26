@@ -33,6 +33,7 @@
     <hutool-all.version>5.8.16</hutool-all.version>
     <commons-fileupload.version>1.5</commons-fileupload.version>
     <hibernate-validator.version>6.1.7.Final</hibernate-validator.version>
+    <druid.version>1.2.16</druid.version>
   </properties>
 
   <dependencies>
@@ -153,6 +154,12 @@
       <groupId>org.hibernate.validator</groupId>
       <artifactId>hibernate-validator</artifactId>
       <version>${hibernate-validator.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>druid</artifactId>
+      <version>${druid.version}</version>
     </dependency>
 
   </dependencies>

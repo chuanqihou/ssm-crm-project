@@ -10,4 +10,10 @@
         where id = #{deptId};
     </select>
 
+    <select id="selectDeptById" resultType="dept">
+        select id, name, loc
+        from dept
+        where id = #{deptId};
+    </select>
+
 </mapper>

@@ -1,5 +1,6 @@
 package com.chuanqihou.crm.mapper;
 
+import com.chuanqihou.crm.domain.Dept;
 import com.chuanqihou.crm.dto.CustomerDto;
 
 /**
@@ -15,5 +16,7 @@ public interface DeptMapper {
      * @return
      */
     int selectDeptIsExist(CustomerDto customerDto);
+
+    Dept selectDeptById(Integer deptId);
 
 }
