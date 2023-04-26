@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * @author 传奇后
  * @date 2023/4/25 17:07
- * @description
+ * @description customer 映射接口
  */
 public interface CustomerMapper {
 
@@ -55,5 +55,13 @@ public interface CustomerMapper {
      * @return  客户信息的集合
      */
     List<Customer> selectCustomersBySearch(CustomerSearchDto customerSearchDto);
+
+
+    /**
+     * 更新客户信息
+     * @param customerDto   客户信息参数
+     * @return 更新结果
+     */
+    int updateCustomer(CustomerDto customerDto);
 
 }

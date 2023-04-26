@@ -99,4 +99,25 @@ public class CustomerController {
         return customerService.findCustomerBySearch(customerSearchDto);
     }
 
+    /**
+     * 修改客户信息
+     * @param customerDto
+     * @param bindingResult
+     * @return
+     */
+    @PostMapping("/editCustomer.do")
+    public Result editCustomer(@Valid CustomerDto customerDto, BindingResult bindingResult) {
+        //数据效验
+        if (bindingResult.hasErrors()) {
+            //取出所有
+            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+            for (FieldError fieldError : fieldErrors) {
+                //返回第一个
+                return new Result(-1, fieldError.getDefaultMessage());
+            }
+        }
+        //执行业务方法并返回
+        return customerService.modifyCustomer(customerDto);
+    }
+
 }

@@ -135,4 +135,30 @@ public class CustomerServiceImpl implements CustomerService {
         //返回数据
         return new Result(200,"success",customerPageInfo.getList(),customerPageInfo.getTotal());
     }
+
+    /**
+     * 修改客户信息
+     * @param customerDto
+     * @return
+     */
+    @Override
+    public Result modifyCustomer(CustomerDto customerDto) {
+        //判断部门编号是否存在
+        int customerIsExist = deptMapper.selectDeptIsExist(customerDto);
+        if (customerIsExist == 0) {
+            return new Result(-1, "部门不存在");
+        }
+        //判断客户是否修改
+        int i = customerMapper.selectCustomerIsExist(customerDto);
+        if (i != 0) {
+            return new Result(-1, "请修改");
+        }
+        //执行修改
+        int updateCustomer = customerMapper.updateCustomer(customerDto);
+        if (updateCustomer == 0) {
+            return new Result(-1, "修改失败");
+        }
+        //返回结果
+        return new Result();
+    }
 }

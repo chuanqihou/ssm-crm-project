@@ -71,7 +71,8 @@
     <delete id="deleteManyCustomer">
         delete from customer where id in(${ids})
     </delete>
-    
+
+    <!--根据条件动态查询customer信息-->
     <select id="selectCustomersBySearch" resultMap="customerAndDept">
         select c.*,d.name,d.loc
         from customer c inner join dept d on c.dept_id = d.id
@@ -90,5 +91,13 @@
             </if>
         </where>
     </select>
+
+    <!--根据客户id修改客户信息-->
+    <update id="updateCustomer">
+        update customer
+        set customer_name=#{customerName},birthday=#{birthday},sex=#{sex},tel=#{tel},
+            sal=#{sal},profession=#{profession},address=#{address},dept_id=#{deptId}
+        where id = #{id};
+    </update>
 
 </mapper>

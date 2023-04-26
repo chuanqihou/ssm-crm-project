@@ -14,6 +14,8 @@ import java.util.Date;
 @NoArgsConstructor
 public class CustomerDto {
 
+  private Long id;
+
   @NotNull(message = "客户姓名必填")
   @Pattern(regexp = "^[\\u4e00-\\u9fa5]{2,10}$",message = "客户姓名必须为中文，且长度在2-10位")
   private String customerName;
