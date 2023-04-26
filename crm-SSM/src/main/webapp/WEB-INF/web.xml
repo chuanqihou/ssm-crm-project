@@ -30,8 +30,6 @@
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
 
-
-
   <!--配置springmvc核心控制器-->
   <servlet>
     <servlet-name>dispatcherServlet</servlet-name>
@@ -44,7 +42,7 @@
     <load-on-startup>1</load-on-startup>
   </servlet>
   
-  <!--druid-->
+  <!--配置druid-->
   <servlet>
     <servlet-name>statViewServlet</servlet-name>
     <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
@@ -75,6 +73,7 @@
     <url-pattern>*.do</url-pattern>
   </servlet-mapping>
 
+  <!--配置druid页面URL-->
   <servlet-mapping>
     <servlet-name>statViewServlet</servlet-name>
     <url-pattern>/druid/*</url-pattern>

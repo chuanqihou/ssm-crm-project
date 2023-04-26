@@ -2,6 +2,7 @@ package com.chuanqihou.crm.mapper;
 
 import com.chuanqihou.crm.domain.Customer;
 import com.chuanqihou.crm.dto.CustomerDto;
+import com.chuanqihou.crm.dto.CustomerSearchDto;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -47,5 +48,12 @@ public interface CustomerMapper {
      * @return
      */
     int deleteManyCustomer(@Param("ids") String ids);
+
+    /**
+     * 根据条件查询客户信息
+     * @param customerSearchDto 封装条件的实体
+     * @return  客户信息的集合
+     */
+    List<Customer> selectCustomersBySearch(CustomerSearchDto customerSearchDto);
 
 }

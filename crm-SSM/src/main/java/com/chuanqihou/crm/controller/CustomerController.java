@@ -1,6 +1,7 @@
 package com.chuanqihou.crm.controller;
 import com.chuanqihou.crm.common.Result;
 import com.chuanqihou.crm.dto.CustomerDto;
+import com.chuanqihou.crm.dto.CustomerSearchDto;
 import com.chuanqihou.crm.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -75,6 +76,27 @@ public class CustomerController {
     @PostMapping("/cutManyCustomer.do")
     public Result cutOneCustomer(String ids) {
         return customerService.removeManyCustomer(ids);
+    }
+
+    /**
+     * 根据条件查询搜索customer
+     * @param customerSearchDto 条件实体
+     * @param bindingResult
+     * @return
+     */
+    @PostMapping("/getCustomerBySearch.do")
+    public Result getCustomerBySearch(@Valid CustomerSearchDto customerSearchDto,BindingResult bindingResult) {
+        //数据效验
+        if (bindingResult.hasErrors()) {
+            //取出所有
+            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+            for (FieldError fieldError : fieldErrors) {
+                //返回第一个
+                return new Result(-1, fieldError.getDefaultMessage());
+            }
+        }
+        //调用业务方法并返回结果
+        return customerService.findCustomerBySearch(customerSearchDto);
     }
 
 }

@@ -2,6 +2,7 @@ package com.chuanqihou.crm.service;
 
 import com.chuanqihou.crm.common.Result;
 import com.chuanqihou.crm.dto.CustomerDto;
+import com.chuanqihou.crm.dto.CustomerSearchDto;
 
 /**
  * @author 传奇后
@@ -17,5 +18,7 @@ public interface CustomerService {
     Result removeCustomer(Long id);
 
     Result removeManyCustomer(String ids);
+
+    Result findCustomerBySearch(CustomerSearchDto customerSearchDto);
 
 }

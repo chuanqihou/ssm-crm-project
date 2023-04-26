@@ -3,6 +3,7 @@ package com.chuanqihou.crm.service.impl;
 import com.chuanqihou.crm.common.Result;
 import com.chuanqihou.crm.domain.Customer;
 import com.chuanqihou.crm.dto.CustomerDto;
+import com.chuanqihou.crm.dto.CustomerSearchDto;
 import com.chuanqihou.crm.mapper.CustomerMapper;
 import com.chuanqihou.crm.mapper.DeptMapper;
 import com.chuanqihou.crm.service.CustomerService;
@@ -77,6 +78,11 @@ public class CustomerServiceImpl implements CustomerService {
         return new Result(200,"success",customerPageInfo.getList(),customerPageInfo.getTotal());
     }
 
+    /**
+     * 根据客户id删除单条客户信息
+     * @param id 客户id
+     * @return  result
+     */
     @Override
     public Result removeCustomer(Long id) {
         //数据效验
@@ -91,6 +97,11 @@ public class CustomerServiceImpl implements CustomerService {
         return new Result();
     }
 
+    /**
+     * 根据客户id批量删除
+     * @param ids   客户id 【格式：1,2,3】
+     * @return  result
+     */
     @Override
     public Result removeManyCustomer(String ids) {
         //数据效验
@@ -105,5 +116,23 @@ public class CustomerServiceImpl implements CustomerService {
         }
         //返回结果
         return new Result();
+    }
+
+
+    /**
+     * 根据条件动态搜索
+     * @param customerSearchDto 搜索条件实体
+     * @return  result
+     */
+    @Override
+    public Result findCustomerBySearch(CustomerSearchDto customerSearchDto) {
+        //开启分页
+        PageHelper.startPage(customerSearchDto.getPageNum(), customerSearchDto.getPageSize());
+        //查询数据
+        List<Customer> customers = customerMapper.selectCustomersBySearch(customerSearchDto);
+        //加入分页
+        PageInfo<Customer> customerPageInfo = new PageInfo<>(customers);
+        //返回数据
+        return new Result(200,"success",customerPageInfo.getList(),customerPageInfo.getTotal());
     }
 }

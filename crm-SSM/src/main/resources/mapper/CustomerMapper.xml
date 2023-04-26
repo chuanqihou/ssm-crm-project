@@ -71,5 +71,24 @@
     <delete id="deleteManyCustomer">
         delete from customer where id in(${ids})
     </delete>
+    
+    <select id="selectCustomersBySearch" resultMap="customerAndDept">
+        select c.*,d.name,d.loc
+        from customer c inner join dept d on c.dept_id = d.id
+        <where>
+            <if test="customerName!=null and customerName!=''">
+                and c.customer_name=#{customerName}
+            </if>
+            <if test="sex!=null and sex!=''">
+                and c.sex=#{sex}
+            </if>
+            <if test="deptName!=null and deptName!=''">
+                and d.name=#{deptName}
+            </if>
+            <if test="tel!=null and tel!=''">
+                and tel=#{tel}
+            </if>
+        </where>
+    </select>
 
 </mapper>
