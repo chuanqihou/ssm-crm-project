@@ -1,5 +1,6 @@
 package com.chuanqihou.crm.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,9 @@ public class Account {
   private String username;
   private String pwd;
   private String imgUrl;
+  @JsonFormat(pattern = "yyyy-MM-dd")
   private Date createTime;
+  @JsonFormat(pattern = "yyyy-MM-dd")
   private Date updateTime;
 
 }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chuanqihou.crm.mapper.AccountMapper">
+
+    <!--根据账户名和密码查询账户是否存在-->
+    <select id="selectAccountByLogin" resultType="account" parameterType="accountDto">
+        select id, username, pwd, img_url, create_time, update_time from account where username=#{username} and pwd=#{pwd}
+    </select>
+
+</mapper>

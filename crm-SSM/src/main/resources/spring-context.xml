@@ -44,7 +44,7 @@
         <!--导入数据源-->
         <property name="dataSource" ref="dataSource"/>
         <!--配置别名-->
-        <property name="typeAliasesPackage" value="com.chuanqihou.crm.domain"/>
+        <property name="typeAliasesPackage" value="com.chuanqihou.crm.domain,com.chuanqihou.crm.dto"/>
         <!--配置插件-->
         <property name="plugins">
             <array>

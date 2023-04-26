@@ -7,17 +7,12 @@ import com.chuanqihou.crm.dto.CustomerSearchDto;
 import com.chuanqihou.crm.mapper.CustomerMapper;
 import com.chuanqihou.crm.mapper.DeptMapper;
 import com.chuanqihou.crm.service.CustomerService;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -36,8 +31,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * 保存客户信息
-     * @param customerDto   客户参数
-     * @return  result
+     *
+     * @param customerDto 客户参数
+     * @return result
      */
     @Override
     @Transactional
@@ -62,6 +58,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * 分页查询
+     *
      * @param pageNum
      * @param pageSize
      * @return
@@ -75,18 +72,20 @@ public class CustomerServiceImpl implements CustomerService {
         //获得pageInfo对象
         PageInfo<Customer> customerPageInfo = new PageInfo<>(customers);
         //返回结果
-        return new Result(200,"success",customerPageInfo.getList(),customerPageInfo.getTotal());
+        return new Result(200, "success", customerPageInfo.getList(), customerPageInfo.getTotal());
     }
 
     /**
      * 根据客户id删除单条客户信息
+     *
      * @param id 客户id
-     * @return  result
+     * @return result
      */
     @Override
+    @Transactional
     public Result removeCustomer(Long id) {
         //数据效验
-        if (id==null || id < 0) {
+        if (id == null || id < 0) {
             return Result.DATE_FORMAT_ERROR;
         }
         //执行删除
@@ -99,13 +98,15 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * 根据客户id批量删除
-     * @param ids   客户id 【格式：1,2,3】
-     * @return  result
+     *
+     * @param ids 客户id 【格式：1,2,3】
+     * @return result
      */
     @Override
+    @Transactional
     public Result removeManyCustomer(String ids) {
         //数据效验
-        if (ids==null || !ids.matches("^\\d+(,\\d+)*$")){
+        if (ids == null || !ids.matches("^\\d+(,\\d+)*$")) {
             return Result.DATE_FORMAT_ERROR;
         }
         //执行删除
@@ -121,8 +122,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * 根据条件动态搜索
+     *
      * @param customerSearchDto 搜索条件实体
-     * @return  result
+     * @return result
      */
     @Override
     public Result findCustomerBySearch(CustomerSearchDto customerSearchDto) {
@@ -133,15 +135,17 @@ public class CustomerServiceImpl implements CustomerService {
         //加入分页
         PageInfo<Customer> customerPageInfo = new PageInfo<>(customers);
         //返回数据
-        return new Result(200,"success",customerPageInfo.getList(),customerPageInfo.getTotal());
+        return new Result(200, "success", customerPageInfo.getList(), customerPageInfo.getTotal());
     }
 
     /**
      * 修改客户信息
+     *
      * @param customerDto
      * @return
      */
     @Override
+    @Transactional
     public Result modifyCustomer(CustomerDto customerDto) {
         //判断部门编号是否存在
         int customerIsExist = deptMapper.selectDeptIsExist(customerDto);
