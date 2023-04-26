@@ -3,9 +3,11 @@ package com.chuanqihou.crm.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -17,8 +19,8 @@ public class CustomerDto {
   private String customerName;
 
   @NotNull(message = "生日必填")
-  @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$",message = "生日格式必须为：yyyy-MM-dd 如2001-01-01")
-  private String birthday;
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  private Date birthday;
 
   @NotNull(message = "性别必填")
   @Pattern(regexp = "^[01]$",message = "性别格式错误！女：0 男：1")

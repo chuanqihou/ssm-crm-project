@@ -15,7 +15,7 @@ public class Account {
   private String username;
   private String pwd;
   private String imgUrl;
-  private String createTime;
-  private String updateTime;
+  private Date createTime;
+  private Date updateTime;
 
 }
