@@ -2,6 +2,7 @@ package com.chuanqihou.crm.mapper;
 
 import com.chuanqihou.crm.domain.Customer;
 import com.chuanqihou.crm.dto.CustomerDto;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -31,5 +32,20 @@ public interface CustomerMapper {
      * @return
      */
     List<Customer> selectCustomerByPage();
+
+    /**
+     * 单条删除
+     * 根据id删除客户信息
+     * @param id    客户id
+     * @return
+     */
+    int deleteCustomer(Long id);
+
+    /**
+     * 批量删除客户信息
+     * @param ids   格式【1，2，3】
+     * @return
+     */
+    int deleteManyCustomer(@Param("ids") String ids);
 
 }

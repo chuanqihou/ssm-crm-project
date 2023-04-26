@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
     public Result handlerException(Exception e) {
         e.printStackTrace();
         logger.debug(e);
-        return new Result(-1, "请求出错!");
+        return new Result(-1, "后台请求出错!");
     }
 
 }

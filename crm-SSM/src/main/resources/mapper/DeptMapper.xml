@@ -4,12 +4,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chuanqihou.crm.mapper.DeptMapper">
 
+<!--    <resultMap id="deptMap" type="dept">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="loc" property="loc"/>
+    </resultMap>-->
+
+    <!--根据部门id查询该部门是否存在-->
     <select id="selectDeptIsExist" resultType="int">
         select count(*)
         from dept
         where id = #{deptId};
     </select>
 
+    <!--根据部门id查询部门信息-->
     <select id="selectDeptById" resultType="dept">
         select id, name, loc
         from dept

@@ -4,7 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chuanqihou.crm.mapper.CustomerMapper">
 
-<!--    <resultMap id="customerAndDept" type="customer">
+    <!--分页查询映射1-->
+    <resultMap id="customerAndDept" type="customer">
         <id column="id" property="id"/>
         <result column="customer_name" property="customerName"/>
         <result column="birthday" property="birthday"/>
@@ -14,9 +15,28 @@
         <result column="profession" property="profession"/>
         <result column="address" property="address"/>
         <result column="dept_id" property="deptId"/>
-        <association property="id" select="com.chuanqihou.crm.mapper.DeptMapper.selectDeptById"/>
-    </resultMap>-->
+        <association property="dept" column="dept_id" javaType="dept">
+            <id column="dept_id" property="id"/>
+            <result column="name" property="name"/>
+            <result column="loc" property="loc"/>
+        </association>
+    </resultMap>
 
+    <!--分页查询映射2-->
+    <resultMap id="customerAndDept2" type="customer">
+        <id column="id" property="id"/>
+        <result column="customer_name" property="customerName"/>
+        <result column="birthday" property="birthday"/>
+        <result column="sex" property="sex"/>
+        <result column="tel" property="tel"/>
+        <result column="sal" property="sal"/>
+        <result column="profession" property="profession"/>
+        <result column="address" property="address"/>
+        <result column="dept_id" property="deptId"/>
+        <association property="dept" column="dept_id" select="com.chuanqihou.crm.mapper.DeptMapper.selectDeptById"/>
+    </resultMap>
+
+    <!--查询是否存在相同的客户-->
     <select id="selectCustomerIsExist" resultType="int">
         select count(*)
         from customer
@@ -26,17 +46,30 @@
           and birthday = #{birthday}
     </select>
 
+    <!--插入一条客户数据-->
     <insert id="insertUser">
         insert into customer (id, customer_name, birthday, sex, tel, sal, profession, address, dept_id)
         values (null, #{customerName}, #{birthday}, #{sex}, #{tel}, #{sal}, #{profession}, #{address}, #{deptId})
     </insert>
 
-<!--    <select id="selectCustomerByPage" resultType="customerAndDept">
-        select c.*,d.name,d.loc from customer c inner join dept d on c.dept_id = d.id
-    </select>-->
-<!--
+    <!--分页查询1-->
     <select id="selectCustomerByPage" resultMap="customerAndDept">
+        select c.*,d.name,d.loc from customer c inner join dept d on c.dept_id = d.id
+    </select>
+
+    <!--分页查询2-->
+    <select id="selectCustomerByPage2" resultMap="customerAndDept2">
         select id, customer_name, birthday, sex, tel, sal, profession, address, dept_id from customer
-    </select>-->
+    </select>
+
+    <!--根据客户id删除单条客户数据-->
+    <delete id="deleteCustomer">
+        delete from customer where id=#{id}
+    </delete>
+
+    <!--根据客户id批量删除客户数据-->
+    <delete id="deleteManyCustomer">
+        delete from customer where id in(${ids})
+    </delete>
 
 </mapper>

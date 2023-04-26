@@ -33,5 +33,6 @@ public class Result {
 
     public Result() {
         this.code = 200;
+        this.msg = "success";
     }
 }

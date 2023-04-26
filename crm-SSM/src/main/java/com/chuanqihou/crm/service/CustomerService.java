@@ -14,4 +14,8 @@ public interface CustomerService {
 
     Result findCustomerByPage(Integer pageNum, Integer pageSize);
 
+    Result removeCustomer(Long id);
+
+    Result removeManyCustomer(String ids);
+
 }

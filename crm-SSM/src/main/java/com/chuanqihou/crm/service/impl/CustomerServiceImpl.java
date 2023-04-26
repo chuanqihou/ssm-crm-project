@@ -67,13 +67,43 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public Result findCustomerByPage(Integer pageNum, Integer pageSize) {
-
+        //开启分页
         PageHelper.startPage(pageNum, pageSize);
-
+        //查询数据
         List<Customer> customers = customerMapper.selectCustomerByPage();
-
+        //获得pageInfo对象
         PageInfo<Customer> customerPageInfo = new PageInfo<>(customers);
-
+        //返回结果
         return new Result(200,"success",customerPageInfo.getList(),customerPageInfo.getTotal());
+    }
+
+    @Override
+    public Result removeCustomer(Long id) {
+        //数据效验
+        if (id==null || id < 0) {
+            return Result.DATE_FORMAT_ERROR;
+        }
+        //执行删除
+        int deleteCustomer = customerMapper.deleteCustomer(id);
+        if (deleteCustomer == 0) {
+            return new Result(-1, "删除失败");
+        }
+        return new Result();
+    }
+
+    @Override
+    public Result removeManyCustomer(String ids) {
+        //数据效验
+        if (ids==null || !ids.matches("^\\d+(,\\d+)*$")){
+            return Result.DATE_FORMAT_ERROR;
+        }
+        //执行删除
+        int deleteManyCustomer = customerMapper.deleteManyCustomer(ids);
+        //判断删除结果
+        if (deleteManyCustomer == 0) {
+            return new Result(-1, "删除失败");
+        }
+        //返回结果
+        return new Result();
     }
 }

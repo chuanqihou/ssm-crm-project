@@ -57,4 +57,24 @@ public class CustomerController {
         return customerService.findCustomerByPage(pageNum, pageSize);
     }
 
+    /**
+     * 单条删除
+     * @param id
+     * @return
+     */
+    @PostMapping("/cutOneCustomer.do")
+    public Result cutOneCustomer(Long id) {
+        return customerService.removeCustomer(id);
+    }
+
+    /**
+     * 批量删除
+     * @param ids
+     * @return
+     */
+    @PostMapping("/cutManyCustomer.do")
+    public Result cutOneCustomer(String ids) {
+        return customerService.removeManyCustomer(ids);
+    }
+
 }
