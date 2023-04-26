@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chuanqihou.crm.mapper.CustomerMapper">
+
+    <select id="selectCustomerIsExist" resultType="int">
+        select count(*)
+        from customer
+        where customer_name = #{customerName}
+          and sex = #{sex}
+          and tel = #{tel}
+          and birthday = #{birthday}
+    </select>
+
+    <insert id="insertUser">
+        insert into customer (id, customer_name, birthday, sex, tel, sal, profession, address, dept_id)
+        values (null, #{customerName}, #{birthday}, #{sex}, #{tel}, #{sal}, #{profession}, #{address}, #{deptId})
+    </insert>
+
+</mapper>

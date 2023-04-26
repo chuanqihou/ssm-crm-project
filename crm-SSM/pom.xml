@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.chuanqihou.crm</groupId>
+  <artifactId>crm-SSM</artifactId>
+  <version>1.0</version>
+  <packaging>war</packaging>
+
+  <name>crm-SSM项目</name>
+   <!-- change it to the project's website -->
+  <url>http://localhost:8080/crm</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
+
+    <!--依赖版本管理-->
+    <spring.version>5.3.18</spring.version>
+    <mybatis.version>3.4.6</mybatis.version>
+    <pagehelper.version>5.2.0</pagehelper.version>
+    <mybatis-spring.version>1.3.1</mybatis-spring.version>
+    <mysql-connector-j.version>8.0.32</mysql-connector-j.version>
+    <log4j.version>1.2.12</log4j.version>
+    <log4j-core.version>2.17.1</log4j-core.version>
+    <commons-logging.version>1.1.1</commons-logging.version>
+    <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
+    <lombok.version>1.18.26</lombok.version>
+    <jackson.version>2.14.2</jackson.version>
+    <hutool-all.version>5.8.16</hutool-all.version>
+    <commons-fileupload.version>1.5</commons-fileupload.version>
+    <hibernate-validator.version>6.1.7.Final</hibernate-validator.version>
+  </properties>
+
+  <dependencies>
+
+    <!--spring webmvc依赖-->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <!--spring-jdbc 依赖-->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jdbc</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <!--spring 切面aspects 依赖-->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aspects</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <!--mybatis依赖-->
+    <dependency>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis</artifactId>
+      <version>${mybatis.version}</version>
+    </dependency>
+
+    <!--分页插件-->
+    <dependency>
+      <groupId>com.github.pagehelper</groupId>
+      <artifactId>pagehelper</artifactId>
+      <version>${pagehelper.version}</version>
+    </dependency>
+
+    <!--spring与mybatis整合-->
+    <dependency>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis-spring</artifactId>
+      <version>${mybatis-spring.version}</version>
+    </dependency>
+
+    <!--mysql驱动-->
+    <dependency>
+      <groupId>com.mysql</groupId>
+      <artifactId>mysql-connector-j</artifactId>
+      <version>${mysql-connector-j.version}</version>
+    </dependency>
+
+    <!--log4j日志依赖-->
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>${log4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>${log4j-core.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>${commons-logging.version}</version>
+    </dependency>
+
+    <!--java-servlet-api依赖-->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>${javax.servlet-api.version}</version>
+    </dependency>
+
+    <!--lombok依赖-->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>${lombok.version}</version>
+    </dependency>
+
+    <!--jackson依赖-->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+
+    <!--胡图依赖-->
+    <dependency>
+      <groupId>cn.hutool</groupId>
+      <artifactId>hutool-all</artifactId>
+      <version>${hutool-all.version}</version>
+    </dependency>
+
+    <!--上传文件依赖-->
+    <dependency>
+      <groupId>commons-fileupload</groupId>
+      <artifactId>commons-fileupload</artifactId>
+      <version>${commons-fileupload.version}</version>
+    </dependency>
+
+    <!--数据效验-->
+    <dependency>
+      <groupId>org.hibernate.validator</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>${hibernate-validator.version}</version>
+    </dependency>
+
+  </dependencies>
+
+</project>
