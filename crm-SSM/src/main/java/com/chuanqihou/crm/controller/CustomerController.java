@@ -50,18 +50,6 @@ public class CustomerController {
      */
     @PostMapping("/getCustomerByPage.do")
     public Result getCustomerByPage(BaseDto baseDto) {
-        //数据效验
-        if (baseDto == null || baseDto.getPageNum() == null || baseDto.getPageNum() <= 0) {
-            return Result.DATE_FORMAT_ERROR;
-        }
-        //若pageSize为null则给默认值为5
-        if (baseDto.getPageSize() == null) {
-            baseDto.setPageSize(5);
-        }
-        //若pageNum为null则给默认值为1
-        if (baseDto.getPageNum() == null) {
-            baseDto.setPageNum(1);
-        }
         //调用业务层方法并返回数据
         return customerService.findCustomerByPage(baseDto.getPageNum(),baseDto.getPageSize());
     }

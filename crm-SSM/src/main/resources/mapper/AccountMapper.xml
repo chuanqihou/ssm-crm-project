@@ -6,7 +6,28 @@
 
     <!--根据账户名和密码查询账户是否存在-->
     <select id="selectAccountByLogin" resultType="account" parameterType="accountDto">
-        select id, username, pwd, img_url, create_time, update_time from account where username=#{username} and pwd=#{pwd}
+        select id, username, pwd, img_url, role, state, create_time, update_time from account where username=#{username} and pwd=#{pwd}
     </select>
+
+    <!--分页查询-->
+    <select id="selectAccountByPage" resultType="account">
+        select id, username, pwd, img_url, role, state, create_time, update_time from account
+    </select>
+
+    <!--根据id删除账户【单个删除】-->
+    <delete id="deleteAccountById">
+        delete from account where id=#{id}
+    </delete>
+
+    <!--重置账户密码-->
+    <update id="updateAccountPwdById">
+        update account set pwd='b65c7c4eb49eb6f0acd7a05f125e8029',update_time=now() where id=#{id}
+    </update>
+
+    <!--新增账户-->
+    <insert id="insertAccount">
+        insert into account (username, pwd, role, create_time,state)
+        values (#{username},'b65c7c4eb49eb6f0acd7a05f125e8029',2,now(),1)
+    </insert>
 
 </mapper>

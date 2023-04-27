@@ -17,6 +17,10 @@ public class Account {
   private String pwd;
   private String imgUrl;
 
+  private Integer role;
+
+  private Integer state;
+
   @JsonFormat(pattern = "yyyy-MM-dd")
   private Date createTime;
 

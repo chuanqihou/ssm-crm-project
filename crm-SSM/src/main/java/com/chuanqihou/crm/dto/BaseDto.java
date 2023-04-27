@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * @author 传奇后
  * @date 2023/4/26 14:21
@@ -11,13 +13,10 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class BaseDto {
 
-    private Integer pageNum;
-    private Integer pageSize;
+    private Integer pageNum = 1;
+    private Integer pageSize = 5;
 
-    public BaseDto() {
-        this.pageNum = 1;
-        this.pageSize = 5;
-    }
 }

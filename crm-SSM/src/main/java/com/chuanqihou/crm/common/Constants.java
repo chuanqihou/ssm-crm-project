@@ -7,8 +7,16 @@ package com.chuanqihou.crm.common;
  */
 public class Constants {
     /**
-     * session中存放的验证码
+     * session中存放的验证码标记
      */
     public static final String CODE_SESSION_KEY = "CODE_SESSION_KEY";
+
+
+    public static final String ACCOUNT_SESSION_KEY = "ACCOUNT_SESSION_KEY";
+
+    /**
+     * 账户角色标记
+     */
+    public static final String ACCOUNT_ROLE_SESSION_KEY = "ACCOUNT_ROLE_SESSION_KEY";
 
 }
