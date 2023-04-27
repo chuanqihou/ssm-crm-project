@@ -6,6 +6,7 @@ import com.chuanqihou.crm.domain.Account;
 import com.chuanqihou.crm.dto.AccountDto;
 import com.chuanqihou.crm.mapper.AccountMapper;
 import com.chuanqihou.crm.service.AccountService;
+import com.chuanqihou.crm.util.MD5Util;
 import com.chuanqihou.crm.util.WebScopeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,9 @@ public class AccountServiceImpl implements AccountService {
             if (!Objects.equals(systemCaptchaCode, accountDto.getCaptcha())) {
                 return new Result(-1, "验证码错误");
             }
+            //处理密码
+            String newPwd = MD5Util.finalMd5(accountDto.getPwd());
+            accountDto.setPwd(newPwd);
             //验证账户名和密码
             Account account = accountMapper.selectAccountByLogin(accountDto);
             if (account == null) {

@@ -10,6 +10,9 @@ import com.chuanqihou.crm.dto.AccountDto;
  */
 public interface AccountService {
 
+    /**
+     * 用户登录
+     */
     Result findAccountByLogin(AccountDto accountDto);
 
 }

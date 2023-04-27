@@ -26,6 +26,12 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
+    /**
+     * 用户登录控制器
+     * @param accountDto    登录参数实体
+     * @param bindingResult 绑定结果
+     * @return  result
+     */
     @PostMapping("/getAccountByLogin.do")
     public Result getAccountByLogin(@Valid AccountDto accountDto, BindingResult bindingResult) {
         Result result = DataValidUtil.dataValid(bindingResult);
