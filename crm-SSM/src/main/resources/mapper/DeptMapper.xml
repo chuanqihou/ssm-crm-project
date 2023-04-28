@@ -24,4 +24,9 @@
         where id = #{deptId};
     </select>
 
+    <!--查询所有部门信息-->
+    <select id="selectAllDept" resultType="dept">
+        select id, name, loc from dept;
+    </select>
+
 </mapper>

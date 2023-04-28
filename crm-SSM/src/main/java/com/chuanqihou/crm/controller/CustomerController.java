@@ -7,6 +7,7 @@ import com.chuanqihou.crm.dto.CustomerSearchDto;
 import com.chuanqihou.crm.service.CustomerService;
 import com.chuanqihou.crm.util.DataValidUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import javax.validation.Valid;
  * @date 2023/4/25 19:16
  * @description 客户控制器
  */
+@Transactional
 @RestController
 @RequestMapping("/customer")
 public class CustomerController {
@@ -94,6 +96,7 @@ public class CustomerController {
     @PostMapping("/getCustomerBySearch.do")
     public Result getCustomerBySearch(@Valid CustomerSearchDto customerSearchDto,BindingResult bindingResult) {
         //数据效验
+        System.out.println(customerSearchDto);
         Result result = DataValidUtil.dataValid(bindingResult);
         if (result != null) {
             return result;
@@ -110,6 +113,7 @@ public class CustomerController {
      */
     @PostMapping("/editCustomer.do")
     public Result editCustomer(@Valid CustomerDto customerDto, BindingResult bindingResult) {
+        System.out.println(customerDto);
         //数据效验
         Result result = DataValidUtil.dataValid(bindingResult);
         if (result != null) {

@@ -5,6 +5,7 @@ import cn.hutool.captcha.GifCaptcha;
 import com.chuanqihou.crm.common.Constants;
 import com.chuanqihou.crm.util.WebScopeUtil;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -25,7 +26,7 @@ public class CaptchaCodeController {
      * 获取验证码接口
      * @param response
      */
-    @PostMapping("/getCaptcha.do")
+    @GetMapping("/getCaptcha.do")
     public void getCaptcha(HttpServletResponse response) {
         //获取验证码
         GifCaptcha gifCaptcha = CaptchaUtil.createGifCaptcha(150, 45, 4);

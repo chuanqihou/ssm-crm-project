@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.Date;
@@ -28,11 +29,12 @@ public class CustomerDto {
   @Pattern(regexp = "^[01]$",message = "性别格式错误！女：0 男：1")
   private String sex;
 
-  @NotNull(message = "联系电话必填")
+  @NotNull(message = "手机号必填")
   @Pattern(regexp = "^(\\+?0?86\\-?)?1[3456789]\\d{9}$",message = "手机号格式错误，必须为中国大陆手机号")
   private String tel;
 
   @NotNull(message = "薪资必填")
+  @Min(value = 0,message = "薪资必须为为非负数")
   private Double sal;
 
   @NotNull(message = "职位必填")
@@ -42,7 +44,7 @@ public class CustomerDto {
   @NotNull(message = "地址必填")
   private String address;
 
-  @NotNull(message = "部门编号必填")
+  @NotNull(message = "部门必填")
   private Long deptId;
 
 }

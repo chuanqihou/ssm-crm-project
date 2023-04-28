@@ -6,6 +6,7 @@ import com.chuanqihou.crm.dto.BaseDto;
 import com.chuanqihou.crm.service.AccountService;
 import com.chuanqihou.crm.util.DataValidUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import javax.validation.Valid;
  * @date 2023/4/26 15:17
  * @description
  */
+@Transactional
 @RestController
 @RequestMapping("/account")
 public class AccountController {
