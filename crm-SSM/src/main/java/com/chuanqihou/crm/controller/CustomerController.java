@@ -1,6 +1,7 @@
 package com.chuanqihou.crm.controller;
 
 import com.chuanqihou.crm.common.Result;
+import com.chuanqihou.crm.domain.Customer;
 import com.chuanqihou.crm.dto.BaseDto;
 import com.chuanqihou.crm.dto.CustomerDto;
 import com.chuanqihou.crm.dto.CustomerSearchDto;
@@ -9,12 +10,18 @@ import com.chuanqihou.crm.util.DataValidUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 /**
  * @author 传奇后
@@ -125,5 +132,64 @@ public class CustomerController {
         //执行业务方法并返回
         return customerService.modifyCustomer(customerDto);
     }
+
+    @PostMapping("/download.do")
+    public void exportExcel(HttpServletResponse response) throws IOException {
+        //获取数据
+        Result customerByPage = customerService.findCustomerByPage(1, 0);
+
+        List<Customer> customers = (List<Customer>) customerByPage.getData();
+
+        //设置响应头
+        response.setHeader("Content-Disposition","attachment;fileName="+ URLEncoder.encode("客户信息.xls","utf-8"));
+        //response.setHeader("Content-Disposition","attachment;fileName="+ new String("客户信息.xls".getBytes(StandardCharsets.UTF_8)));
+        response.setContentType("application/x-excel;charset=utf-8");
+        //下载
+        ServletOutputStream out = response.getOutputStream();
+        customerService.exportExcel(customers,out);
+        //关闭
+        out.close();
+    }
+
+/*    @GetMapping("/download.do")
+    public void downloadCustomer(HttpServletResponse response) {
+        //定义输出Excel文件路径和名称
+        String fileName = "customer.xlsx";
+        //定义Excel表头
+        List<String> headList = Arrays.asList("编号", "姓名", "生日","性别","手机号","薪资","职位","地址","部门");
+        List<List<String>> head = new ArrayList<>();
+        head.add(headList);
+        //定义Excel数据
+        //List<List<Object>> dataList = getDataListFromDatabase();
+        Result customerByPage = customerService.findCustomerByPage(1, 0);
+        //创建ExcelWriter对象
+        ExcelWriter excelWriter = EasyExcel.write(fileName).build();
+        //创建第一个sheet
+        WriteSheet sheet = EasyExcel.writerSheet(0, "客户信息").head(head).build();
+        //将数据写入sheet
+        List<Customer> customers = (List<Customer>) customerByPage.getData();
+        for (Customer customer : customers) {
+            customer.setDept(null);
+        }
+        ExcelWriter write = excelWriter.write(customers, sheet);
+        //关闭流
+        excelWriter.finish();
+
+        //设置HTTP响应头
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+
+        try (OutputStream outputStream = response.getOutputStream()) {
+            FileInputStream inputStream = new FileInputStream(new File(fileName));
+            byte[] buffer = new byte[8192];
+            int len = 0;
+            while ((len = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, len);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }*/
 
 }

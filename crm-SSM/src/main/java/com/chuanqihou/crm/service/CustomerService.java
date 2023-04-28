@@ -1,8 +1,13 @@
 package com.chuanqihou.crm.service;
 
 import com.chuanqihou.crm.common.Result;
+import com.chuanqihou.crm.domain.Customer;
 import com.chuanqihou.crm.dto.CustomerDto;
 import com.chuanqihou.crm.dto.CustomerSearchDto;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.List;
 
 /**
  * @author 传奇后
@@ -53,5 +58,11 @@ public interface CustomerService {
      * @return
      */
     Result modifyCustomer(CustomerDto customerDto);
+
+
+    /**
+     * 导出excel
+     */
+    void exportExcel(List<Customer> customerList, OutputStream out) throws IOException;
 
 }

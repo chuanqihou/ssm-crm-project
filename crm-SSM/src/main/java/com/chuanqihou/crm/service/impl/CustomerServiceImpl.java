@@ -9,10 +9,16 @@ import com.chuanqihou.crm.mapper.DeptMapper;
 import com.chuanqihou.crm.service.CustomerService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 /**
@@ -164,5 +170,53 @@ public class CustomerServiceImpl implements CustomerService {
         }
         //返回结果
         return new Result();
+    }
+
+    /**
+     * 导出excel
+     * @param customerList
+     * @param out
+     */
+    @Override
+    public void exportExcel(List<Customer> customerList, OutputStream out) throws IOException {
+        //创建工作簿
+        HSSFWorkbook hssfWorkbook = new HSSFWorkbook();
+        //创建工作表
+        HSSFSheet sheet = hssfWorkbook.createSheet("客户信息管理");
+        //第一行【表名】
+        HSSFRow row1 = sheet.createRow(0);
+        //第一列
+        HSSFCell cell1 = row1.createCell(0);
+        //内容
+        cell1.setCellValue("客户信息表");
+
+        //第二行【标题】
+        HSSFRow row2 = sheet.createRow(1);
+        //准备数据
+        String[] row2Value = {"编号", "姓名", "生日","性别","手机号","薪资","职位","地址","部门名称","部门地址"};
+        //循环创建单元格并设置内容
+        for (int i = 0; i < row2Value.length; i++) {
+            HSSFCell cell2 = row2.createCell(i);
+            cell2.setCellValue(row2Value[i]);
+        }
+
+        //第三行【数据】
+        for (int i = 0; i < customerList.size(); i++) {
+            HSSFRow rowData = sheet.createRow(i + 2);
+            rowData.createCell(0).setCellValue(customerList.get(i).getId());
+            rowData.createCell(1).setCellValue(customerList.get(i).getCustomerName());
+            rowData.createCell(2).setCellValue(customerList.get(i).getBirthday());
+            rowData.createCell(3).setCellValue("1".equals(customerList.get(i).getSex())?"男":"女");
+            rowData.createCell(4).setCellValue(customerList.get(i).getTel());
+            rowData.createCell(5).setCellValue(customerList.get(i).getSal());
+            String profession = customerList.get(i).getProfession();
+            rowData.createCell(6).setCellValue("1".equals(profession)?"java软件开发工程师":"2".equals(profession)?"前端开发工程师":"软件测试工程师");
+            rowData.createCell(7).setCellValue(customerList.get(i).getAddress());
+            rowData.createCell(8).setCellValue(customerList.get(i).getDept().getName());
+            rowData.createCell(9).setCellValue(customerList.get(i).getDept().getLoc());
+        }
+
+        hssfWorkbook.write(out);
+
     }
 }
