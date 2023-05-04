@@ -2,6 +2,7 @@ package com.chuanqihou.crm.mapper;
 
 import com.chuanqihou.crm.domain.Account;
 import com.chuanqihou.crm.dto.AccountDto;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -41,4 +42,23 @@ public interface AccountMapper {
      */
     int insertAccount(String username);
 
+    /**
+     *根据账户id查询账户信息
+     */
+    Account selectAccountById(Long id);
+
+    /**
+     *根据账户Id修改账户状态
+     */
+    int updateAccountState(@Param("id") Long id, @Param("state") Integer state);
+
+    /**
+     *根据账户id修改头像
+     */
+    int updateAccountHeadImg(@Param("id") Long id,@Param("imgUrl") String imgUrl);
+
+    /**
+     *根据用户id修改用户密码
+     */
+    int updateAccountPasswordById(@Param("id") Long id, @Param("pwd") String pwd);
 }

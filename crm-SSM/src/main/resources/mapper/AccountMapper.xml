@@ -26,8 +26,28 @@
 
     <!--新增账户-->
     <insert id="insertAccount">
-        insert into account (username, pwd, role, create_time,state)
-        values (#{username},'b65c7c4eb49eb6f0acd7a05f125e8029',2,now(),1)
+        insert into account (username, pwd, role, create_time,state,img_url)
+        values (#{username},'b65c7c4eb49eb6f0acd7a05f125e8029',2,now(),1,'default.jpg')
     </insert>
+
+    <!--根据账户id查询账户信息-->
+    <select id="selectAccountById" resultType="account">
+        select id, username, pwd, img_url, role, state, create_time, update_time from account where id=#{id}
+    </select>
+
+    <!--根据账户Id修改账户状态-->
+    <update id="updateAccountState">
+        update account set state=#{state} where id=#{id}
+    </update>
+
+    <!--根据账户id修改头像-->
+    <update id="updateAccountHeadImg">
+        update account set img_url=#{imgUrl} where id=#{id}
+    </update>
+
+    <!--根据用户id修改用户密码-->
+    <update id="updateAccountPasswordById">
+        update account set pwd=#{pwd} where id=#{id}
+    </update>
 
 </mapper>

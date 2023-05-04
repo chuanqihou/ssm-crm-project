@@ -54,6 +54,10 @@ public class AccountServiceImpl implements AccountService {
             if (account == null) {
                 return new Result(-1, "账户名或密码错误,请重新输入");
             }
+            //判断账户状态
+            if (account.getState() != 1) {
+                return new Result(-1, "账号已封禁，如需帮助，请联系客服！");
+            }
             //保存用户信息
             session.setAttribute(Constants.ACCOUNT_SESSION_KEY,account);
             //返回数据
@@ -121,8 +125,9 @@ public class AccountServiceImpl implements AccountService {
         if (id ==null || id <= 0) {
             return Result.DATE_FORMAT_ERROR;
         }
+        HttpSession session = WebScopeUtil.getHttpSession();
         //验证用户角色
-        Account account = (Account) WebScopeUtil.getHttpSession().getAttribute(Constants.ACCOUNT_SESSION_KEY);
+        Account account = (Account) session.getAttribute(Constants.ACCOUNT_SESSION_KEY);
         if (account == null || account.getRole() != 1) {
             return new Result(-1, "账户权限不够");
         }
@@ -130,6 +135,10 @@ public class AccountServiceImpl implements AccountService {
         int updateAccountPwdById = accountMapper.updateAccountPwdById(id);
         if (updateAccountPwdById == 0) {
             return new Result(-1, "重置密码失败");
+        }
+        //若重置账户为当前管理员账户则退出登录【重置session】
+        if (id == account.getId()) {
+            session.removeAttribute(Constants.ACCOUNT_SESSION_KEY);
         }
         //返回数据
         return new Result();
@@ -157,6 +166,92 @@ public class AccountServiceImpl implements AccountService {
             return new Result(-1, "新增账户失败");
         }
         //返回数据
+        return new Result();
+    }
+
+    /**
+     * 更改账户状态
+     * @param id
+     * @return
+     */
+    @Override
+    public Result modifyStateById(Long id) {
+        //数据效验
+        if (id ==null || id <= 0) {
+            return Result.DATE_FORMAT_ERROR;
+        }
+        //验证用户角色
+        Account account = (Account) WebScopeUtil.getHttpSession().getAttribute(Constants.ACCOUNT_SESSION_KEY);
+        if (account == null || account.getRole() != 1) {
+            return new Result(-1, "账户权限不够");
+        }
+        //查询账户信息
+        Account acc = accountMapper.selectAccountById(id);
+        //判断操作账户
+        if (acc.getRole() == 1) {
+            return new Result(-1, "不能禁用管理员");
+        }
+        //修改账号状态
+        int newState = 0;
+        if (acc.getState() == 0) {
+            newState = 1;
+        }
+        int updateAccountState = accountMapper.updateAccountState(id, newState);
+        if (updateAccountState != 1) {
+            return new Result(-1, "更改账号状态失败");
+        }
+        return new Result();
+    }
+
+    /**
+     * 修改账户头像
+     * @param imgUrl 头像文件名/地址
+     * @return result
+     */
+    @Override
+    public Result modifyHeadImgById(String imgUrl) {
+        if (imgUrl == null) {
+            return Result.DATE_FORMAT_ERROR;
+        }
+        Account account = (Account) WebScopeUtil.getHttpSession().getAttribute(Constants.ACCOUNT_SESSION_KEY);
+
+        int i = accountMapper.updateAccountHeadImg(account.getId(), imgUrl);
+        if (i == 0) {
+            return new Result(-1,"修改失败");
+        }
+        return new Result(200,"success",imgUrl);
+    }
+
+    /**
+     * 修改用户密码
+     * @param oldPwd 原密码
+     * @param newPwd 新密码
+     * @return result
+     */
+    @Override
+    public Result modifyAccountPasswordById(String oldPwd, String newPwd) {
+        //密码正则，6-12位，包含数字大写字母，小写字母和特殊符号
+        String regex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\W).{6,12}$";
+        //数据效验
+        if (oldPwd == null || !oldPwd.matches(regex) || newPwd == null || !newPwd.matches(regex)) {
+            return Result.DATE_FORMAT_ERROR;
+        }
+        //加密
+        oldPwd = MD5Util.finalMd5(oldPwd);
+        newPwd = MD5Util.finalMd5(newPwd);
+        //获取当前登录用户信息
+        Account account = (Account) WebScopeUtil.getHttpSession().getAttribute(Constants.ACCOUNT_SESSION_KEY);
+        //比对原密码
+        //Account ac = accountMapper.selectAccountById(account.getId());
+        if (!Objects.equals(account.getPwd(), oldPwd)) {
+            return new Result(-1, "修改失败，原密码错误");
+        }
+        //更新密码
+        int i = accountMapper.updateAccountPasswordById(account.getId(), newPwd);
+        if (i == 0) {
+            return new Result(-1, "修改失败");
+        }
+        //返回结果
         return new Result();
     }
 }

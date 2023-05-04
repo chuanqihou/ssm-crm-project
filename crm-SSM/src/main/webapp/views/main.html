@@ -6,29 +6,47 @@
     <link rel="stylesheet" href="../resources/js/layuimini/lib/layui-v2.6.3/css/layui.css">
     <script type="text/javascript" src="../resources/js/layuimini/lib/layui-v2.6.3/layui.js"></script>
     <script type="text/javascript" src="../resources/js/main.js"></script>
+
+    <link rel="stylesheet" href="../resources/element-ui/lib/theme-chalk/index.css">
+    <script src="../resources/js/vue.js"></script>
+    <script src="../resources/element-ui/lib/index.js"></script>
+    <script src="../resources/js/axios.js"></script>
 </head>
 <body>
+
+    <script>
+        let userStr = window.localStorage.getItem("user");
+        let user = JSON.parse(userStr);
+        window.onload = function(){
+            document.getElementById("welcome").innerHTML="欢迎"+user.username+"使用后台管理平台!";
+            document.getElementById("usernameSpan").innerHTML = user.username;
+            document.getElementById("headImgId").setAttribute("src","../download/headImg.do?imgUrl="+user.imgUrl)
+        }
+    </script>
+
+    <div id="app">
     <div class="layui-layout-admin">
         <div class="layui-header">
             <!--平台名称-->
             <div class="layui-logo">后台管理平台</div>
             <!--左侧主菜单-->
-            <ul class="layui-nav layui-layout-left">
+<!--            <ul class="layui-nav layui-layout-left">
                 <li class="layui-nav-item"><a href="#">日志设置</a></li>
                 <li class="layui-nav-item"><a href="#">系统设置</a></li>
                 <li class="layui-nav-item"><a href="#">统计</a></li>
                 <li class="layui-nav-item"><a href="#">帮助</a></li>
-            </ul>
+            </ul>-->
             <!--右侧主菜单-->
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item">
                     <a href="javascript:;">
-                        <img src="../resources/images/head.png" style="width: 40px;height: 40px">
+                        <span id="usernameSpan"></span>
+                        <img id="headImgId" src="../resources/images/head.png" style="width: 40px;height: 40px">
                     </a>
                     <dl class="layui-nav-child">
-                        <dd><a href="#">修改头像</a></dd>
-                        <dd><a href="#">修改密码</a></dd>
-                        <dd><a href="#">退出</a></dd>
+                        <dd><a href="#" @click="updateHeadImgFlag = !updateHeadImgFlag" >修改头像</a></dd>
+                        <dd><a href="#" @click="updatePwdFlag = !updatePwdFlag">修改密码</a></dd>
+                        <dd><a href="#" @click="loginOut">退出</a></dd>
                     </dl>
                 </li>
             </ul>
@@ -36,7 +54,23 @@
         <div class="layui-side layui-bg-black">
             <ul class="layui-nav layui-nav-tree" lay-filter="menu">
                 <li class="layui-nav-item"><a href="#" id="1" url="customer/customer.html"><i class="layui-icon layui-icon-user"></i>客户管理</a></li>
-                <li class="layui-nav-item"><a href="#" id="2" url="account/account2.html" ><i class="layui-icon layui-icon-delete" ></i>账户管理</a></li>
+                <li class="layui-nav-item"><a href="#" id="2" url="account/account.html" ><i class="layui-icon layui-icon-delete" ></i>账户管理</a></li>
+<!--                <li class="layui-nav-item" id="2">
+                    <a href="javascript:;" >
+                        <i class="layui-icon layui-icon-delete" id="aaa"></i>账户管理
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="#" id="5" url="account/account.html"  >账户列表</a></dd>
+                        <dd><a href="#" id="3" url="account/myeditImg2.html" >修改头像</a></dd>
+                        <dd><a href="#" id="4" url="account/updatePwd.html" >修改密码</a></dd>
+                    </dl>
+                </li>-->
+<!--                <dl class="layui-nav-child">
+                    <dd><a href="#">账户列表</a></dd>
+                    <dd><a href="#">修改头像</a></dd>
+                    <dd><a href="#">修改密码</a></dd>
+                </dl>-->
+
             </ul>
         </div>
         <div class="layui-body">
@@ -45,15 +79,234 @@
                     <li class="layui-this">首页</li>
                 </ul>
                 <div class="layui-tab-content">
-                    <div class="layui-tab-item layui-show">欢迎使用后台管理平台!</div>
+                    <div class="layui-tab-item layui-show" id="welcome">欢迎使用后台管理平台!</div>
                 </div>
             </div>
         </div>
         <div class="layui-footer">
             <center>
-                2022-9999&copy;版权所有|维权必究
+                2001-2023 传奇后&copy;版权所有|维权必究
             </center>
         </div>
     </div>
+
+        <el-dialog title="修改密码" :visible.sync="updatePwdFlag" @close="closeUpdatePwdWin">
+            <el-form :model="updatePwd" :rules="updatePwdRules" ref="updatePwdRef">
+
+                <el-form-item label="用户名" label-width="80px" prop="uname">
+                    <el-input disabled prefix-icon="el-icon-user" v-model="updatePwd.uname" placeholder="请输入用户名"></el-input>
+                </el-form-item>
+
+                <el-form-item label="原密码" label-width="80px" prop="oldPwd">
+                    <el-input show-password prefix-icon="el-icon-more" v-model="updatePwd.oldPwd" placeholder="请输入原密码"></el-input>
+                </el-form-item>
+                <el-form-item label="新密码" label-width="80px" prop="newPwd">
+                    <el-input show-password prefix-icon="el-icon-more" v-model="updatePwd.newPwd" placeholder="请输入新密码"></el-input>
+                </el-form-item>
+                <el-form-item label="再次输入" label-width="80px" prop="newPwd2">
+                    <el-input show-password prefix-icon="el-icon-more" v-model="updatePwd.newPwd2" placeholder="请再次输入新密码"></el-input>
+                </el-form-item>
+
+                <el-form-item label-width="80px">
+                    <el-button type="success" icon="el-icon-check" @click="updatePwdBtn" >确定</el-button>
+                    <el-button type="warning" icon="el-icon-close" @click="closeUpdatePwdWin" >取消</el-button>
+                </el-form-item>
+
+            </el-form>
+        </el-dialog>
+
+        <el-dialog title="修改头像" :visible.sync="updateHeadImgFlag" @close="closeUpdateHeadImgWin">
+            <el-form ref="updateHeadImgRef">
+                <el-form-item label-width="150px">
+                    <el-upload
+                            name="headImg"
+                            action="/crm/upload//uploadHeadImg.do"
+                            accept=".jpg,.JPG,.jpeg,.JPEG,.png,.PNG,.gif,.GIF"
+                            :show-file-list="false"
+                            :on-change="onchangeUpload"
+                            :on-success="onsuccessUpload"
+                            :auto-upload="false"
+                            ref="uploadImgRef"
+                    >
+                        <div style="width: 300px" class="el-upload-dragger">
+                            <img v-if="imgUrl" :src="imgUrl" style="width: 300px;" />
+                            <div v-else>
+                                <i class="el-icon-upload"></i>
+                                <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                                <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过1MB</div>
+                            </div>
+                        </div>
+
+                    </el-upload>
+                </el-form-item>
+
+                <el-form-item label-width="150px">
+                    <el-button type="primary" icon="el-icon-upload" @click="uploadHeadImg" >上传头像</el-button>
+                    <el-button type="success" icon="el-icon-close" @click="closeUpdateHeadImgWin" >取消</el-button>
+                </el-form-item>
+
+            </el-form>
+        </el-dialog>
+    </div>
+
+    <script>
+        var app = new Vue({
+            el:"#app",
+            data:{
+                imgUrl:undefined,
+                updatePwdFlag:false,
+                updateHeadImgFlag:false,
+                updatePwd:{
+                    uname:undefined,
+                    oldPwd:undefined,
+                    newPwd:undefined,
+                    newPwd2:undefined
+                },
+                updatePwdRules:{
+                    oldPwd:[
+                        {required:true,message:"请输入原密码",trigger:"blur"},
+                        {pattern:/^(?=.*[A-Z])(?=.*[a-z])(?=.*\W).{6,12}$/,message:"密码必须包含大小写字母、数字和特殊符号，长度6-12位"}
+                    ],
+                    newPwd:[
+                        {required:true,message:"请输入新密码",trigger:"blur"},
+                        {pattern:/^(?=.*[A-Z])(?=.*[a-z])(?=.*\W).{6,12}$/,message:"密码必须包含大小写字母、数字和特殊符号，长度6-12位"}
+                    ],
+                    newPwd2:[
+                        {required:true,message:"请再次输入新密码",trigger:"blur"},
+                        {pattern:/^(?=.*[A-Z])(?=.*[a-z])(?=.*\W).{6,12}$/,message:"密码必须包含大小写字母、数字和特殊符号，长度6-12位"}
+                    ],
+                    uname:[
+                    ],
+                }
+            },
+            methods:{
+                validateConfirmPassword(){
+                    if (this.updatePwd.newPwd !== this.updatePwd.newPwd2) {
+                        this.$refs.updatePwdRef.resetFields();
+                        this.$message({
+                            message:"两次密码输入不一致",
+                            type:"warning"
+                        })
+                        return false;
+                    }
+                    return true;
+                },
+                updatePwdBtn(){
+                    this.$refs.updatePwdRef.validate((flag=>{
+                        var f = this.validateConfirmPassword();
+                        if(!f){
+                            return;
+                        }
+                        if(flag){
+                            axios({
+                                url: "/crm/account/editAccountPassword.do",
+                                method: "post",
+                                params:{
+                                    oldPwd:this.updatePwd.oldPwd,
+                                    newPwd:this.updatePwd.newPwd
+                                }
+                            }).then((res)=>{
+                                if(res.data.code===200){
+                                    this.$notify({
+                                        title:"温馨提示",
+                                        message:"修改成功",
+                                        type:"success"
+                                    })
+                                    this.$refs.updatePwdRef.resetFields();
+                                    this.updatePwdFlag = false;
+                                    this.loginOut();
+                                }else{
+                                    this.$notify({
+                                        title:"温馨提示",
+                                        message:"修改失败！"+res.data.msg,
+                                        type:"error"
+                                    })
+                                    this.$refs.updatePwdRef.resetFields();
+                                }
+                            }).catch((err=>{
+                                this.$notify({
+                                    title:"温馨提示",
+                                    message:"系统错误，请联系管理员！",
+                                    type:"error"
+                                })
+                            }))
+                        }else{
+                            this.$message({
+                                message:"信息填写不完整",
+                                type:"warning"
+                            })
+                        }
+                    }))
+                },
+                closeUpdatePwdWin(){
+                    this.$refs.updatePwdRef.resetFields();
+                    this.updatePwdFlag = false;
+                },
+                closeUpdateHeadImgWin(){
+                    this.imgUrl = undefined;
+                    this.updateHeadImgFlag = false;
+                },
+                loginOut(){
+                    axios({
+                        method:"post",
+                        url:"/crm/account/editLoginOut.do"
+                    }).then(res=>{
+                        if(res.data.code===200) {
+                            window.localStorage.clear();
+                            window.location.href="login.html";
+                        }else{
+                            this.$notify({
+                                title:"温馨提示",
+                                message:"退出失败",
+                                type:"error"
+                            })
+                        }
+                    }).catch(e=>{
+                        this.$notify({
+                            title:"温馨提示",
+                            message:"系统错误，请联系管理员！",
+                            type:"error"
+                        })
+                    })
+                },
+                onchangeUpload(file){
+                    this.imgUrl=URL.createObjectURL(file.raw)
+                    let size = file.size/1024/1024;
+                    if (size > 1) {
+                        this.$message("文件大小不能超过1MB")
+                    }
+                },
+                onsuccessUpload(result){
+                    let code=result.code;
+                    if(code===200) {
+                        let userStr = window.localStorage.getItem("user");
+                        let user = JSON.parse(userStr);
+                        user.imgUrl = result.data.toString();
+                        window.localStorage.setItem("user",JSON.stringify(user))
+                        this.$notify({
+                            title:"温馨提示",
+                            message:"上传成功!",
+                            type:"success"
+                        })
+                        window.location.href="../views/main.html"
+                    }else {
+                        this.$notify({
+                            title:"温馨提示",
+                            message:"上传失败!"+result.msg,
+                            type:"warning"
+                        })
+                    }
+                },
+                uploadHeadImg(){
+                    this.$refs.uploadImgRef.submit();
+                }
+            },
+            created(){
+                this.updatePwd.uname = user.username;
+            }
+        })
+
+    </script>
+
 </body>
 </html>

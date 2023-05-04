@@ -133,6 +133,11 @@ public class CustomerController {
         return customerService.modifyCustomer(customerDto);
     }
 
+    /**
+     * 导出客户信息为excel文件
+     * @param response
+     * @throws IOException
+     */
     @PostMapping("/download.do")
     public void exportExcel(HttpServletResponse response) throws IOException {
         //获取数据

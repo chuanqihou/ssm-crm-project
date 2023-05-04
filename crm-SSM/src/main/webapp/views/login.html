@@ -65,27 +65,6 @@
 </div>-->
 
 <div id="app">
-    <el-dialog title="修改密码" :visible.sync="updatePwdFlag">
-        <el-form :model="updatePwd" :rules="updatePwdRules" ref="updatePwdRef">
-
-            <el-form-item label="用户名" label-width="80px" prop="uname">
-                <el-input v-model="updatePwd.uname" placeholder="请输入用户名"></el-input>
-            </el-form-item>
-
-            <el-form-item label="原密码" label-width="80px" prop="oldPwd">
-                <el-input v-model="updatePwd.oldPwd" placeholder="请输入原密码"></el-input>
-            </el-form-item>
-            <el-form-item label="新密码" label-width="80px" prop="newPwd">
-                <el-input v-model="updatePwd.newPwd" placeholder="请输入新密码"></el-input>
-            </el-form-item>
-
-            <el-form-item label-width="80px">
-                <el-button type="success" icon="el-icon-check" @click="updatePwdBtn" >确定</el-button>
-                <el-button type="warning" icon="el-icon-close" @click="closeUpdatePwdWin" >取消</el-button>
-            </el-form-item>
-
-        </el-form>
-    </el-dialog>
 
 <div class="main-body">
 
@@ -119,7 +98,7 @@
             <div class="tip">
                 <span class="icon-nocheck"></span>
                 <span class="login-tip">保持登录</span>
-                <a href="javascript:" @click="updatePwdFlag = !updatePwdFlag" class="forget-password">忘记密码？</a>
+                <a href="javascript:" @click="forgetPwd" class="forget-password">忘记密码？</a>
             </div>
             <div class="layui-form-item" style="text-align:center; width:100%;height:100%;margin:0px;">
                 <button class="login-btn" lay-submit="" lay-filter="login">立即登录</button>
@@ -135,7 +114,7 @@
 </div>
 
 <div class="footer">
-    ©版权所有 2020-2022 工作室<span class="padding-5">|</span><a target="_blank" href="http://www.miitbeian.gov.cn">湘ICP备16006642号-1</a>
+    ©版权所有 2001-2023 传奇后工作室<span class="padding-5">|</span><a target="_blank" href="http://www.miitbeian.gov.cn">湘ICP备16006642号-1</a>
 </div>
 <script src="../resources/js/layuimini/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
 <script>
@@ -181,6 +160,8 @@
             }).then((res)=>{
                 console.log(res)
                 if(res.data.code===200){
+                    var user = res.data.data;
+                    window.localStorage.setItem("user",JSON.stringify(user))
                     window.location.href = "main.html";
                 }else{
                     alert("登录失败！"+res.data.msg)
@@ -195,75 +176,20 @@
     var app = new Vue({
         el:"#app",
         data:{
-            updatePwdFlag:false,
-            updatePwd:{
-                uname:undefined,
-                oldPwd:undefined,
-                newPwd:undefined
-            },
-            updatePwdRules:{
-                oldPwd:[
-                    {required:true,message:"请输入原密码",trigger:"blur"},
-                    {pattern:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,12}$/,message:"密码必须包含大小写字母和数字，长度6-12位"}
-                ],
-                newPwd:[
-                    {required:true,message:"请输入新密码",trigger:"blur"},
-                    {pattern:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,12}$/,message:"密码必须包含大小写字母和数字，长度6-12位"}
-                ],
-                uname:[
-                    {required:true,message:"用户名必填",trigger:"blur"},
-                    {pattern:/^[\u4e00-\u9fa5]{2,10}$/,message:"用户名只能是中文，长度在2-10位"}
-                ]
-            }
         },
         methods:{
-            updatePwdBtn(){
-                this.$refs.updatePwdRef.validate((flag=>{
-                    if(flag){
-                        this.$notify({
-                            title:"温馨提示",
-                            message:"系统错误，请联系管理员！",
-                            type:"error"
-                        })
-/*                        axios({
-                            url: "/projectServlet/editAccountPwdByName.do",
-                            method: "post",
-                            data: this.updatePwd
-                        }).then((res)=>{
-                            if(res.data.code===200){
-                                this.$notify({
-                                    title:"温馨提示",
-                                    message:"修改成功",
-                                    type:"success"
-                                })
-                                this.$refs.updatePwdRef.resetFields();
-                                this.updatePwdFlag = false;
-                            }else{
-                                this.$notify({
-                                    title:"温馨提示",
-                                    message:"修改失败！"+res.data.msg,
-                                    type:"error"
-                                })
-                            }
-                        }).catch((err=>{
-                            this.$notify({
-                                title:"温馨提示",
-                                message:"系统错误，请联系管理员！",
-                                type:"error"
-                            })
-                        }))*/
-                    }else{
-                        // alert("验证失败")
-                    }
-                }))
-            },
-            closeUpdatePwdWin(){
-                this.$refs.updatePwdRef.resetFields();
-                this.updatePwdFlag = false;
+            forgetPwd(){
+                this.$message({
+                    message:"请联系管理员重置密码",
+                    type:"success"
+                })
             }
         },
-        mounted(){
-            // alert("123")
+        created(){
+            var userStr = window.localStorage.getItem("user")
+            if (userStr != null) {
+                window.location.href = "main.html";
+            }
         }
     })
 

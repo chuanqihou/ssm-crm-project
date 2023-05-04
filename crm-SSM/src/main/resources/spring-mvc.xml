@@ -28,5 +28,9 @@
         <!--设置字符集编码为UTF-8-->
         <property name="defaultEncoding" value="utf-8"/>
     </bean>
+
+    <bean id="uploadBean" class="com.chuanqihou.crm.common.UploadBean">
+        <property name="baseUrl" value="F:\outputStream\img\"/>
+    </bean>
     
 </beans>

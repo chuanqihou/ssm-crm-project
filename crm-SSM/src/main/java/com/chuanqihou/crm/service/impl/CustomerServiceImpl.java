@@ -215,8 +215,7 @@ public class CustomerServiceImpl implements CustomerService {
             rowData.createCell(8).setCellValue(customerList.get(i).getDept().getName());
             rowData.createCell(9).setCellValue(customerList.get(i).getDept().getLoc());
         }
-
+        //导出
         hssfWorkbook.write(out);
-
     }
 }

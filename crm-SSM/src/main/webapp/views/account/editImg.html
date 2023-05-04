@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../resources/element-ui/lib/theme-chalk/index.css">
+    <script src="../../resources/js/vue.js"></script>
+    <script src="../../resources/element-ui/lib/index.js"></script>
+    <script src="../../resources/js/axios.js"></script>
+</head>
+<body>
+
+    <div id="app">
+
+        <el-form>
+            <el-form-item>
+                <el-upload
+                name="file"
+                action="/crm/upload//uploadHeadImg.do"
+                accept=".jpg,.JPG,.jpeg,.JPEG,.png,.PNG,.gif,.GIF"
+                :show-file-list="false"
+                :on-change="onchangeUpload"
+                :on-success="onsuccessUpload"
+                :auto-upload="false"
+                ref="uploadImgRef"
+                >
+                    <div style="width: 300px" class="el-upload-dragger">
+                        <img v-if="imgUrl" :src="imgUrl" style="width: 300px;" />
+                        <div v-else>
+                        <i class="el-icon-upload"></i>
+                        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                        <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+                        </div>
+                    </div>
+
+                </el-upload>
+            </el-form-item>
+
+            <el-form-item>
+                <el-button type="primary" icon="el-icon-upload" @click="uploadHeadImg" >上传头像</el-button>
+            </el-form-item>
+
+        </el-form>
+
+    </div>
+
+<script>
+
+    var app = new Vue({
+        el:"#app",
+        data:{
+            imgUrl:undefined
+        },
+        methods:{
+            beforeUpload(file){
+                // console.log(file)
+                let size = file.size/1024/1024;
+                if (size > 1) {
+                    this.$message("文件大小不能超过1MB")
+                }
+            },
+            onchangeUpload(file){
+                console.log(file)
+                this.imgUrl=URL.createObjectURL(file.raw)
+
+                let size = file.size/1024/1024;
+                if (size > 1) {
+                    this.$message("文件大小不能超过1MB")
+                }
+            },
+            onsuccessUpload(result){
+                let code=result.code;
+                if(code===200) {
+
+                    let userStr = window.localStorage.getItem("user");
+                    let user = JSON.parse(userStr);
+                    user.imgUrl = result.data.toString();
+
+                    window.localStorage.setItem("user",JSON.stringify(user))
+
+                    this.$notify({
+                        title:"温馨提示",
+                        message:"上传成功!",
+                        type:"success"
+                    })
+                    window.location.href="../main.html"
+                }else {
+                    this.$notify({
+                        title:"温馨提示",
+                        message:"上传失败!"+result.msg,
+                        type:"warning"
+                    })
+                }
+            },
+            uploadHeadImg(){
+                this.$refs.uploadImgRef.submit();
+            }
+        }
+    })
+
+</script>
+</body>
+</html>

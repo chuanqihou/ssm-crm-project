@@ -36,4 +36,19 @@ public interface AccountService {
      */
     Result saveAccount(String username);
 
+    /**
+     *根据账户Id修改账户状态
+     */
+    Result modifyStateById(Long id);
+
+    /**
+     *根据账户id修改头像
+     */
+    Result modifyHeadImgById(String imgUrl);
+
+    /**
+     * 修改用户密码
+     */
+    Result modifyAccountPasswordById(String oldPwd, String newPwd);
+
 }

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改头像</title>
+    <link rel="stylesheet" href="../../resources/element-ui/lib/theme-chalk/index.css">
+    <script src="../../resources/js/vue.js"></script>
+    <script src="../../resources/element-ui/lib/index.js"></script>
+    <script src="../../resources/js/axios.js"></script>
+</head>
+<body>
+<div id="app">
+    <el-form>
+        <el-form-item>
+            <!--上传组件-->
+            <el-upload
+                    name="headImg"
+                    action="/upload/uploadFile.do"
+                    accept=".jpg,.JPG,.jpeg,.JPEG,.png,.PNG,.GIF,.gif"
+                    :show-file-list="false"
+                    :on-change="onChange"
+                    :on-success="onSuccess"
+                    :auto-upload="false"
+                    ref="uploadImgRef"
+            >
+                <div style="width:280px;height: 200px;" class="el-upload-dragger">
+                    <img v-if="imgUrl" :src="imgUrl" alt="" style="width:280px;height:200px;">
+                    <div v-else>
+                        <i class="el-icon-upload"></i>
+                        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                        <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+                    </div>
+                </div>
+
+            </el-upload>
+        </el-form-item>
+        <el-form-item style="padding-left: 80px;">
+            <el-button type="primary" icon="el-icon-upload" @click="uploadHeadImg">上传头像</el-button>
+        </el-form-item>
+    </el-form>
+</div>
+<script src="../../resources/js/editHeadImg.js"></script>
+</body>
+</html>
