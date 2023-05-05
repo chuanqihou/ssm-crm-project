@@ -100,4 +100,8 @@
         where id = #{id};
     </update>
 
+    <select id="selectSexCount" resultType="java.util.Map">
+        select count(1) value,sex name from customer group by sex;
+    </select>
+
 </mapper>

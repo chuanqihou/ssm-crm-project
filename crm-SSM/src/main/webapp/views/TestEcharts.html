@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../resources/js/echarts.min.js"></script>
+</head>
+    <body>
+        <div id="myDiv" style="width: 400px;height: 600px">
+
+        </div>
+
+
+    <script>
+
+        var myEcharts = echarts.init(document.getElementById("myDiv"));
+
+        var option = {
+            xAxis:{
+                type:"category",
+                data:["1","2","3","4"]
+            },
+            yAxis:{
+                type:"value"
+            },
+            series:{
+                name:"姓名",
+                type:"bar",
+                data:["5","8","2","6"]
+            },
+            title:{
+                text:"标题",
+                show:true
+            }
+        };
+        myEcharts.setOption(option)
+
+    </script>
+
+    </body>
+</html>

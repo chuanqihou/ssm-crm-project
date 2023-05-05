@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 传奇后
@@ -217,5 +218,13 @@ public class CustomerServiceImpl implements CustomerService {
         }
         //导出
         hssfWorkbook.write(out);
+    }
+
+    @Override
+    public Result findSexCount() {
+
+        List<Map<String, String>> maps = customerMapper.selectSexCount();
+        System.out.println(maps);
+        return new Result(200,"success",maps);
     }
 }

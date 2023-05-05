@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../resources/element-ui/lib/theme-chalk/index.css">
+    <script src="../../resources/js/vue.js"></script>
+    <script src="../../resources/element-ui/lib/index.js"></script>
+    <script src="../../resources/js/axios.js"></script>
+    <script src="../../resources/js/echarts.min.js"></script>
+</head>
+    <body>
+        <div id="app" style="height: 100%;margin: 0">
+            <div id="myDiv" style="width: 400px;height: 600px">
+            </div>
+        </div>
+
+    <script>
+        var app = new Vue({
+            el:"#app",
+            data:{
+                names:[]
+            },
+            methods:{
+                getEcharts(){
+                    //初始化echarts
+                    let mainChart = echarts.init(document.getElementById("myDiv"));
+                    //获取数据
+                    axios({
+                        methods: "post",
+                        url:"/crm/customer/getSexCount.do",
+                        dataType:"json"
+                    }).then(res=>{
+                        let arr = res.data.data;
+                        if (arr.length > 0) {
+                            //保存数据
+                            for (let i = 0; i < arr.length; i++) {
+                                this.names.push({name:arr[i].name==='1'?"男":"女",value:arr[i].value})
+                            }
+                            //加载图标【隐藏加载】
+                            mainChart.hideLoading();
+                            //准备option
+                            var option = {
+                                title:{
+                                    text:"客户性别比例图",
+                                    show:true,
+                                    left:"center"
+                                },
+                                tooltip:{
+                                    trigger:"item"
+                                },
+                                legend: {
+                                    orient: 'vertical',
+                                    left: 'left'
+                                },
+                                series:[
+                                    {
+                                        name:"人数",
+                                        type:'pie',
+                                        data:this.names
+                                    }
+                                ],
+                                emphasis: {
+                                    itemStyle: {
+                                        shadowBlur: 10,
+                                        shadowOffsetX: 0,
+                                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                    }
+                                }
+                            }
+                            mainChart.setOption(option)
+                        }
+                    })
+                }
+            },
+            mounted(){
+                this.getEcharts()
+            }
+        })
+
+    </script>
+
+    </body>
+</html>

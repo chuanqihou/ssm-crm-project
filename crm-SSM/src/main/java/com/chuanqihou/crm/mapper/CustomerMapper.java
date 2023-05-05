@@ -6,6 +6,7 @@ import com.chuanqihou.crm.dto.CustomerSearchDto;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 传奇后
@@ -63,5 +64,11 @@ public interface CustomerMapper {
      * @return 更新结果
      */
     int updateCustomer(CustomerDto customerDto);
+
+    /**
+     * 统计性别
+     * @return list<Map<String,String>
+     */
+    List<Map<String, String>> selectSexCount();
 
 }

@@ -156,6 +156,11 @@ public class CustomerController {
         out.close();
     }
 
+    @RequestMapping("/getSexCount.do")
+    public Result getSexCount() {
+        return customerService.findSexCount();
+    }
+
 /*    @GetMapping("/download.do")
     public void downloadCustomer(HttpServletResponse response) {
         //定义输出Excel文件路径和名称

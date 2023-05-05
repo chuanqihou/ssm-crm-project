@@ -53,7 +53,19 @@
         </div>
         <div class="layui-side layui-bg-black">
             <ul class="layui-nav layui-nav-tree" lay-filter="menu">
-                <li class="layui-nav-item"><a href="#" id="1" url="customer/customer.html"><i class="layui-icon layui-icon-user"></i>客户管理</a></li>
+                <!--<li class="layui-nav-item"><a href="#" id="1" url="customer/customer.html"><i class="layui-icon layui-icon-user"></i>客户管理</a></li>-->
+
+                <li class="layui-nav-item">
+                    <a href="javascript:">
+                        <i class="layui-icon layui-icon-user"></i>客户管理
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="#" id="5" url="customer/customer.html"  >客户列表</a></dd>
+                        <dd><a href="#" id="3" url="customer/sexCount.html" >客户性别比例图</a></dd>
+                        <!--<dd><a href="#" id="4" url="account/updatePwd.html" >修改密码</a></dd>-->
+                    </dl>
+                </li>
+
                 <li class="layui-nav-item"><a href="#" id="2" url="account/account.html" ><i class="layui-icon layui-icon-delete" ></i>账户管理</a></li>
 <!--                <li class="layui-nav-item" id="2">
                     <a href="javascript:;" >
@@ -282,13 +294,15 @@
                         let userStr = window.localStorage.getItem("user");
                         let user = JSON.parse(userStr);
                         user.imgUrl = result.data.toString();
-                        window.localStorage.setItem("user",JSON.stringify(user))
+                        window.localStorage.setItem("user",JSON.stringify(user));
+                        document.getElementById("headImgId").setAttribute("src","../download/headImg.do?imgUrl="+user.imgUrl)
                         this.$notify({
                             title:"温馨提示",
                             message:"上传成功!",
                             type:"success"
                         })
-                        window.location.href="../views/main.html"
+                        this.updateHeadImgFlag = false;
+                        // window.location.href="../views/main.html"
                     }else {
                         this.$notify({
                             title:"温馨提示",

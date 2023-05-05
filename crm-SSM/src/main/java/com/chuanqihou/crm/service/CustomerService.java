@@ -65,4 +65,9 @@ public interface CustomerService {
      */
     void exportExcel(List<Customer> customerList, OutputStream out) throws IOException;
 
+    /**
+     * 性别统计
+     */
+    Result findSexCount();
+
 }
